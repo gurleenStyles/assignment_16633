@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechCorp - Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        #app {
+            width: 90%;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .section {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        .logo {
+            width: 200px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Login Section -->
+        <div id="login" class="section">
+            <img src="WhatsApp Image 2024-09-13 at 09.32.13" alt="Gurleen's Hub" class="logo">
+            <h2>Login to Gurleen's Hub</h2>
+            <form id="loginForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p id="loginError" class="error-message"></p>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" class="section hidden">
+            <h2>Admin Dashboard</h2>
+            <button id="logoutAdmin">Logout</button>
+            <p>Welcome, Admin! Manage the system here.</p>
+        </div>
+
+        <!-- Employee Dashboard -->
+        <div id="employeeDashboard" class="section hidden">
+            <h2>Employee Dashboard</h2>
+            <button id="logoutEmployee">Logout</button>
+            <p>Welcome, Employee! View your tasks and updates here.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('loginForm');
+            const loginError = document.getElementById('loginError');
+            const adminDashboard = document.getElementById('adminDashboard');
+            const employeeDashboard = document.getElementById('employeeDashboard');
+            const loginSection = document.getElementById('login');
+            
+            // Dummy user data
+            const users = {
+                admin: { username: 'admin', password: 'admin123', role: 'admin' },
+                employee: { username: 'employee', password: 'employee123', role: 'employee' }
+            };
+            
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                loginError.textContent = '';
+                
+                for (const user in users) {
+                    if (users[user].username === username && users[user].password === password) {
+                        loginSection.classList.add('hidden');
+                        if (users[user].role === 'admin') {
+                            adminDashboard.classList.remove('hidden');
+                        } else if (users[user].role === 'employee') {
+                            employeeDashboard.classList.remove('hidden');
+                        }
+                        return;
+                    }
+                }
+                
+                loginError.textContent = 'Invalid username or password';
+            });
+            
+            document.getElementById('logoutAdmin').addEventListener('click', () => {
+                adminDashboard.classList.add('hidden');
+                loginSection.classList.remove('hidden');
+            });
+            
+            document.getElementById('logoutEmployee').addEventListener('click', () => {
+                employeeDashboard.classList.add('hidden');
+                loginSection.classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
